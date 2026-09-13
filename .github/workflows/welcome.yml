@@ -1,6 +1,25 @@
-name: Post welcome comment
+# .github/workflows/greet.yml
+name: Dynamic Greeter
+
+# 1. Trigger the workflow manually via the GitHub UI
 on:
-  pull_request:
-    types: [opened]
-permissions:
-  pull-requests: write
+  workflow_dispatch:
+    inputs:
+      name_to_greet:
+        description: 'Who would you like to greet?'
+        required: true
+        default: 'World'
+        type: string
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Greet the name provided in the custom input
+      - name: Personal Greeting
+        run: echo "Hello, ${{ inputs.name_to_greet }}! Welcome to GitHub Actions. 🎉"
+
+      # Step 2: Greet the GitHub user who clicked the button
+      - name: Actor Greeting
+        run: echo "This workflow was triggered by @${{ github.actor }}."
